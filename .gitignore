@@ -1,0 +1,33 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dep
+vendor
+
+# Sam packaging directory
+.package
+.swagger.yaml
+.tmp_swagger.yaml
+
+# Lambda zip file
+functions/**/*.zip
+functions/**/.template.yaml
+
+# Mac
+.DS_Store
+
+# fresh
+tmp
+
+.application.json
+lambda-payloads.json
