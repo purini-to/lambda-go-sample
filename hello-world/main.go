@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,11 +12,15 @@ import (
 
 func helloHandler(c *gin.Context) {
 	name := c.Param("name")
-	c.String(http.StatusOK, "Hello %s", name)
+	c.JSON(http.StatusOK, gin.H{
+		"text": fmt.Sprintf("Hello %s", name),
+	})
 }
 
 func welcomeHandler(c *gin.Context) {
-	c.String(http.StatusOK, "Hello World from Go")
+	c.JSON(http.StatusOK, gin.H{
+		"text": "Hello World from Go",
+	})
 }
 
 func rootHandler(c *gin.Context) {
@@ -42,6 +47,16 @@ func routerEngine() *gin.Engine {
 }
 
 func main() {
-	addr := ":" + os.Getenv("PORT")
-	log.Fatal(gateway.ListenAndServe(addr, routerEngine()))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	addr := ":" + port
+
+	mode := os.Getenv("GIN_MODE")
+	if mode == "release" {
+		log.Fatal(gateway.ListenAndServe(addr, routerEngine()))
+	} else {
+		log.Fatal(http.ListenAndServe(addr, routerEngine()))
+	}
 }
